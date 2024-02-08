@@ -64,14 +64,11 @@ export default function Input( { handleClick, handleInputValues }){
                 {/* Number of Days */}
                 <div className="w-full sm:w-1/2 px-2 mb-4">
                     <label htmlFor="days" className="block text-gray-700">Number of Days per week</label>
-                    <input
-                    type="number"
-                    id="days"
-                    name="days"
-                    className="border p-2 w-full"
-                    min="1"
-                    max="7"
-                    />
+                    <select id="days" name="days" className="border p-2 w-full">
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    </select>
                 </div>
 
                 {/* Experience */}

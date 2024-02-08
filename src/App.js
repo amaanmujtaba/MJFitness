@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useRef, useEffect  } from 'react';
 function App() {
 
-    const [displayModal, setDisplayModal] = useState(false);
+    const [displayModal, setDisplayModal] = useState(true);
     const modalRef = useRef()
     const [inputValues, setInputValues] = useState({
       age: "",
@@ -19,16 +19,17 @@ function App() {
   });
 
     function handleClick() {
+
       setDisplayModal(true);
       if (modalRef.current) {
-        modalRef.current.showModal();
+              modalRef.current.showModal();
+
       }
     }
 
     function handleClose() {
       setDisplayModal(false);
       if (modalRef.current && modalRef.current.close) { // Ensure modalRef.current exists and has the close method
-        
           modalRef.current.close();
         
       }

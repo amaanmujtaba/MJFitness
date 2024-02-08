@@ -1,5 +1,6 @@
 import { parse } from 'postcss';
 import { forwardRef } from 'react';
+import { workoutRoutine } from '../data.js';
 
 const ResultModal = forwardRef(function Output({ handleClose, inputValues }, ref) {
     function calculateBMI(weight, height) {
@@ -70,35 +71,48 @@ const ResultModal = forwardRef(function Output({ handleClose, inputValues }, ref
         caloriesIntake = caloriesBurned - 366;
     }
 
+    let recommended;
+    if(noOfDay !== null){
+         recommended = workoutRoutine.find(routine => routine.daysPerWeek === noOfDay);
+        console.log(recommended);
+       
+    }
+    else{
+         recommended = workoutRoutine.find(routine => routine.daysPerWeek === 3)
+    }
+    if (isNaN(age) || isNaN(height) || isNaN(weight) || isNaN(noOfDay)) {
+        // Handle invalid input values
+        return null; // Or display an error message
+    }
+
+
     return (
-        <dialog ref={ref} className="fixed inset-4 w-3/4 bg-slate-600">
-            <div className="flex flex-col md:flex-row lg:text-xl bg-blue-500 w-full mx-auto">
-                <div className="flex flex-col md:w-1/2 bg-red-500">
-                    <h1 className="text-2xl">Recommended workout schedule: </h1>
-                    <p>Monday</p>
-                    <p>Monday</p>
-                    <p>Monday</p>
-                    <p>Monday</p>
-                    <p>Monday</p>
-                    <p>Monday</p>
-                    <p>Monday</p>
+        <dialog ref={ref} className="fixed inset-4 w-3/4 bg-slate-300">
+            <div className="flex flex-col md:flex-row lg:text-xl h-1/2 mx-auto">
+                <div className="flex flex-col md:w-1/2 ">
+                    <h1 className="text-lg md:text-2xl font-bold">Recommended workout schedule: </h1>
+                    <ul>
+                        {recommended.workoutRoutine.map((exercise, index) => (
+                        <li key={index}>Day {index+1} : {exercise}</li>
+                        ))}
+                    </ul>
                 </div>
-                <div className="flex flex-col md:w-1/2 bg-green-700">
-                    <div className="bg-blue-500">
-                        <h2>Caloric Information</h2>
+                <div className="flex flex-col md:w-1/2 ">
+                    <div className="">
+                        <h2 className='font-bold'>Caloric Information</h2>
                         <p> BMI: {bmi}</p>
                         <p> BMR: {(bmr).toFixed(2)} </p>
                         <p> Calories Burned: {caloriesBurned.toFixed(2)}</p>
                     </div>
-                    <div className="bg-yellow-500">
-                        <h2>Calorie Intake</h2>
+                    <div className="">
+                        <h2 className='font-bold'>Recommended Calorie Intake</h2>
                         <p> Protein: {proteinReq.toFixed(0) + "g"} </p>
                         <p> Calorie Intake: {caloriesIntake.toFixed(2)}</p>
                     </div>
                 </div>
             </div>
-            <form method="dialog" className="flex justify-center bg-blue-500">
-                <button onClick={handleClose} className="h-11 w-40 text-red-500 bg-slate-500 mx-auto">Close</button>
+            <form method="dialog" className="flex justify-center ">
+                <button onClick={handleClose} className="h-11 w-40 bg-slate-500 mx-auto">Close</button>
             </form>
         </dialog>
     );
